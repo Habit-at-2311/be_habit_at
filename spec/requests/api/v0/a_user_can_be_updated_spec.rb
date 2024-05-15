@@ -25,6 +25,6 @@ RSpec.describe "Users", type: :request do
 		parsed = JSON.parse(response.body, symbolize_names: true)
 
 		expect(response.status).to eq 404
-		expect(parsed).to eq({ error: "User not found" })
+		expect(parsed).to eq({:errors=>[{:detail=>"Couldn't find User without an ID", :status_code=>404}]})
 	end
 end 

@@ -30,6 +30,6 @@ RSpec.describe "Users", type: :request do
 		
 		expect(User.count).to eq(1)
 		expect(response.status).to eq(404)
-		expect(parsed).to eq({ :error=> "User not found" })
+		expect(parsed).to eq({:errors=>[{:detail=>"Couldn't find User with 'id'=283734", :status_code=>404}]})
 	end
 end
