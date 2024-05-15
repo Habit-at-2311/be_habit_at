@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Habit, type: :model do
   describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:description) }
     it { should validate_presence_of(:frequency) }
     it { should validate_presence_of(:start_datetime) }
     it { should validate_presence_of(:end_datetime) }
@@ -20,6 +22,8 @@ RSpec.describe Habit, type: :model do
         email: "john@gmail.com"
       })
       habit = Habit.create!({
+        name: "Mediate",
+        description: "Spend 10 minutes meditating right after waking up",
         user_id: user.id,
         frequency: 0,
         start_datetime: DateTime.new(2024,5,1),
