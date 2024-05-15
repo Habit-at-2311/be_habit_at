@@ -20,6 +20,8 @@ RSpec.describe Habit, type: :model do
         email: "john@gmail.com"
       })
       habit = Habit.create!({
+        name: "Mediate",
+        description: "Spend 10 minutes meditating right after waking up",
         user_id: user.id,
         frequency: 0,
         start_datetime: DateTime.new(2024,5,1),
