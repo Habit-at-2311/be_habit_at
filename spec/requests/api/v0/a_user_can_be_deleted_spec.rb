@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Users", type: :request do 
 	it "can delete a current user" do 
-		user = User.create!(email: "tigerwoods@gmail.com")
+		user = User.create!(name: "Tiger Woods", email: "tigerwoods@gmail.com")
 
 		expect(User.count).to eq(1)
 		expect(User.first.email).to eq("tigerwoods@gmail.com")
@@ -18,7 +18,7 @@ RSpec.describe "Users", type: :request do
 	end
 
 	it "will return an error if user ID not provided" do 
-		User.create!(email: "tigerwoods@gmail.com")
+		user = User.create!(name: "Tiger Woods", email: "tigerwoods@gmail.com")
 
 		expect(User.count).to eq(1)
 		expect(User.first.email).to eq("tigerwoods@gmail.com")
