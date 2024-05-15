@@ -1,4 +1,4 @@
 class HabitSerializer
   include JSONAPI::Serializer
-  attributes :name, :description, :frequency, :start_datetime, :end_datetime, :status
+  attributes :user_id, :name, :description, :frequency, :start_datetime, :end_datetime, :status
 end
