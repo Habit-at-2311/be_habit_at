@@ -12,13 +12,17 @@ class Api::V0::UsersController < ApplicationController
 	end
 
 	def destroy
-		user = User.find_by(user_params)
-		if user
-			user.destroy
-			render json: { message: "User #{user.email}, was successfully deleted" }, status: :ok
-		else
-			handle_record_not_found
-		end
+		user = User.find(user_params[:id])
+
+		user.destroy
+		render json: { message: "User #{user.email}, was successfully deleted" }, status: :ok
+	end
+
+	def update
+		user = User.find(user_params[:id])
+		user.update(user_params)
+
+		render json: UserSerializer.new(user), status: :ok
 	end
 
 	private
