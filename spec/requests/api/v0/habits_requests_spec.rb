@@ -45,8 +45,7 @@ RSpec.describe "Habits Api", type: :request do
 	    description: "travel at least once per month",
 	    frequency: "monthly",
 	    start_datetime: "2024-05-14 8:35:20",
-      end_datetime: "2024-12-14 8:35:20",
-	    status: "in_progress"
+      end_datetime: "2024-12-14 8:35:20"
     }
   end
   describe "habits#index" do
