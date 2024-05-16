@@ -143,6 +143,25 @@ RSpec.describe "Habits Api", type: :request do
       expect(attributes).to have_key(:status)
       expect(attributes[:status]).to eq("in_progress")
     end
+
+    it "will return an error if it can't find a user" do 
+      habit = Habit.find(@habit_3.id)
+      expect(habit.name).to eq("Mediate")
+
+      patch "/api/v0/users/#{@user.id}/habits/48340957309478", headers: @headers, params: { name: "Meditate" }.to_json
+      
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      result = JSON.parse(response.body, symbolize_names: true)
+      expect(result).to eq({:errors=>[{:detail=>"Couldn't find Habit with 'id'=48340957309478", :status_code=>404}]})
+      
+      habit = Habit.find(@habit_3.id)
+      # habit name did not get updated
+      expect(habit.name).to eq("Mediate")
+
+      result = JSON.parse(response.body, symbolize_names: true)
+    end
   end
 
   describe "habits#delete" do 
