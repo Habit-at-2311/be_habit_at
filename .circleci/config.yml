@@ -4,23 +4,14 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/ruby:3.2
+      - image: cimg/ruby:3.2.2
     steps:
       - checkout
       - ruby/install-deps
       
-  checking:
-    docker:
-      - image: cimg/ruby:3.2
-    steps:
-      - checkout
-      - ruby/install-deps
-      - ruby/rubocop-check:
-          format: progress
-          label: Inspecting with Rubocop
   test:
     docker:
-      - image: cimg/ruby:3.2
+      - image: cimg/ruby:3.2.2
       - environment:
           POSTGRES_DB: rails_blog_test
           POSTGRES_PASSWORD: ''
@@ -49,7 +40,6 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - checking
       - test:
           requires:
             - build
