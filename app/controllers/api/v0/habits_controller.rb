@@ -14,7 +14,7 @@ class Api::V0::HabitsController < ApplicationController
   private
 
   def habit_params
-    params.require(:habit).permit(:user_id, :name, :description, :frequency, :start_datetime, :end_datetime, :status)
+    params.require(:habit).permit(:user_id, :name, :description, :frequency, :start_datetime, :end_datetime)
   end
 
   def set_user
