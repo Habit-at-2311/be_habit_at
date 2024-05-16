@@ -5,7 +5,7 @@ RSpec.describe "Habits Api", type: :request do
     @headers = { "Content-Type" => "application/json", accept => 'application/json' }
 
     @user = User.create!({
-      name: "John Doe",
+      name: "John Dunbar",
       email: "john@gmail.com"
     })
 
