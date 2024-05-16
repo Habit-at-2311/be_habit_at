@@ -17,19 +17,19 @@ RSpec.describe "Users", type: :request do
 		expect(parsed).to eq({:message=> "User tigerwoods@gmail.com, was successfully deleted" })
 	end
 
-	it "will return an error if user ID not provided" do 
+	it "will return an error if user ID is incorrect" do 
 		user = User.create!(name: "Tiger Woods", email: "tigerwoods@gmail.com")
 
 		expect(User.count).to eq(1)
 		expect(User.first.email).to eq("tigerwoods@gmail.com")
 
-		delete "/api/v0/users/#{user.id}", headers: { "Content-Type" => "application/json", "Accept" => "application/json" },
+		delete "/api/v0/users/324432323", headers: { "Content-Type" => "application/json", "Accept" => "application/json" },
 			params: { user: user }.to_json
 		
 		parsed = JSON.parse(response.body, symbolize_names: true)
 		
 		expect(User.count).to eq(1)
 		expect(response.status).to eq(404)
-		expect(parsed).to eq({:errors=>[{:detail=>"Couldn't find User with 'id'=283734", :status_code=>404}]})
+		expect(parsed).to eq({:errors=>[{:detail=>"Couldn't find User with 'id'=324432323", :status_code=>404}]})
 	end
 end
