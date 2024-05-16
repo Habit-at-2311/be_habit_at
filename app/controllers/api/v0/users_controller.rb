@@ -17,7 +17,6 @@ class Api::V0::UsersController < ApplicationController
 	end
 
 	def destroy
-		require 'pry'; binding.pry
 		user = User.find(params[:id])
 		user.destroy
 
