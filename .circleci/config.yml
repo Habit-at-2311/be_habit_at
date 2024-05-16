@@ -24,14 +24,14 @@ jobs:
       - environment:
           POSTGRES_DB: rails_blog_test
           POSTGRES_PASSWORD: ''
-          POSTGRES_USER: be_habit_at
+          POSTGRES_USER: postgres
         image: cimg/postgres:16.2
     environment:
       BUNDLE_JOBS: '3'
       BUNDLE_RETRY: '3'
       PGHOST: 127.0.0.1
       PGPASSWORD: ''
-      PGUSER: be_habit_at
+      PGUSER: postgres
       RAILS_ENV: test
     parallelism: 3
     steps:
