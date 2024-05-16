@@ -103,16 +103,61 @@ RSpec.describe "Habits Api", type: :request do
   end
 
   describe "habits#update" do 
+  # Correct misspelled habit name with PATCH
     it "updates a habit for a given user" do 
-      it "creates a new habit for a specified user" do
-        patch "/api/v0/users/#{@user.id}/habits", headers: @headers, params: { habit: @habit_params }.to_json
-  
-        expect(response).to be_successful
-        expect(response.status).to eq(201)
-  
-        result = JSON.parse(response.body, symbolize_names: true)
-  
-        data = result[:data]
+      habit = Habit.find(@habit_3.id)
+      expect(habit.name).to eq("Mediate")
+
+      patch "/api/v0/users/#{@user.id}/habits/#{@habit_3.id}", headers: @headers, params: { name: "Meditate" }.to_json
+
+      habit_updated = Habit.find(@habit_3.id)
+      expect(habit_updated.name).to eq("Meditate")
+
+      expect(response).to be_successful
+      expect(response.status).to eq(202)
+
+      result = JSON.parse(response.body, symbolize_names: true)
+
+      data = result[:data]
+      
+      expect(data).to have_key(:id)
+      expect(data[:id]).to be_a(String)
+      expect(data).to have_key(:type)
+      expect(data[:type]).to eq("habit")
+      expect(data).to have_key(:attributes)
+      expect(data[:attributes]).to be_a(Hash)
+      attributes = data[:attributes]
+
+      expect(attributes).to have_key(:user_id)
+      expect(attributes[:user_id]).to eq(@user.id)
+      expect(attributes).to have_key(:name)
+      expect(attributes[:name]).to eq("Meditate")
+      expect(attributes).to have_key(:description)
+      expect(attributes[:description]).to eq("Spend 10 minutes meditating right after waking up")
+      expect(attributes).to have_key(:frequency)
+      expect(attributes[:frequency]).to eq("daily")
+      expect(attributes).to have_key(:start_datetime)
+      expect(attributes[:start_datetime]).to eq("2024-05-01T06:30:00.000Z")
+      expect(attributes).to have_key(:end_datetime)
+      expect(attributes[:end_datetime]).to eq("2024-05-30T06:30:00.000Z")
+      expect(attributes).to have_key(:status)
+      expect(attributes[:status]).to eq("in_progress")
+    end
+  end
+
+  describe "habits#delete" do 
+    it "deletes a habit for a given user" do
+      habit = Habit.all.first
+      expect(Habit.count).to eq(3)
+      expect(habit.id).to eq(@habit_1.id)
+      expect(habit.name).to eq(@habit_1.name)
+      expect(habit.description).to eq(@habit_1.description)
+      expect(habit.frequency).to eq(@habit_1.frequency)
+
+      delete "/api/v0/users/#{@user.id}/habits/#{@habit_3.id}", headers: @headers, params: { name: "Meditate" }.to_json
+
+      expect(response)
+
     end
   end
 end
