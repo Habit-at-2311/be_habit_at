@@ -101,4 +101,18 @@ RSpec.describe "Habits Api", type: :request do
       expect(attributes[:status]).to eq("in_progress")
     end
   end
+
+  describe "habits#update" do 
+    it "updates a habit for a given user" do 
+      it "creates a new habit for a specified user" do
+        patch "/api/v0/users/#{@user.id}/habits", headers: @headers, params: { habit: @habit_params }.to_json
+  
+        expect(response).to be_successful
+        expect(response.status).to eq(201)
+  
+        result = JSON.parse(response.body, symbolize_names: true)
+  
+        data = result[:data]
+    end
+  end
 end

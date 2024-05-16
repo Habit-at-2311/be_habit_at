@@ -7,8 +7,8 @@ RSpec.describe "Users", type: :request do
 		expect(User.count).to eq(1)
 		expect(User.first.email).to eq("tigerwoods@gmail.com")
 
-		delete "/api/v0/users/:user_id", headers: { "Content-Type" => "application/json", "Accept" => "application/json" },
-			params: { id: user.id }.to_json
+		delete "/api/v0/users/#{user.id}", headers: { "Content-Type" => "application/json", "Accept" => "application/json" },
+			params: { user: user }.to_json
 
 		parsed = JSON.parse(response.body, symbolize_names: true)
 		
@@ -23,8 +23,8 @@ RSpec.describe "Users", type: :request do
 		expect(User.count).to eq(1)
 		expect(User.first.email).to eq("tigerwoods@gmail.com")
 
-		delete "/api/v0/users/:id", headers: { "Content-Type" => "application/json", "Accept" => "application/json" },
-			params: { id: 283734 }.to_json
+		delete "/api/v0/users/#{user.id}", headers: { "Content-Type" => "application/json", "Accept" => "application/json" },
+			params: { user: user }.to_json
 		
 		parsed = JSON.parse(response.body, symbolize_names: true)
 		
