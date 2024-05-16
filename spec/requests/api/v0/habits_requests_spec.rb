@@ -147,17 +147,60 @@ RSpec.describe "Habits Api", type: :request do
 
   describe "habits#delete" do 
     it "deletes a habit for a given user" do
-      habit = Habit.all.first
+      # assigning first habit in list
+      habit = Habit.find(@habit_1.id)
+
       expect(Habit.count).to eq(3)
       expect(habit.id).to eq(@habit_1.id)
-      expect(habit.name).to eq(@habit_1.name)
-      expect(habit.description).to eq(@habit_1.description)
-      expect(habit.frequency).to eq(@habit_1.frequency)
+      expect(habit.frequency).to eq("daily")
+      expect(habit.name).to eq("swimming")
+      expect(habit.description).to eq("swimming is fun")
+      expect(habit.frequency).to eq("daily")
+      expect(habit.status).to eq("in_progress")
 
-      delete "/api/v0/users/#{@user.id}/habits/#{@habit_3.id}", headers: @headers, params: { name: "Meditate" }.to_json
+      delete "/api/v0/users/#{@user.id}/habits/#{habit.id}", headers: @headers, 
+        params: { name: "Meditate" }.to_json
 
-      expect(response)
+      result = JSON.parse(response.body, symbolize_names: true)
 
+      expect(response.status).to eq(202)
+      expect(result).to eq({:message=>"swimming has been deleted"})
+
+      # count has decremented by one
+      expect(Habit.count).to eq(2)
+      # @habit_1 attributes and values are not in database anymore
+      expect(Habit.pluck(:id)).to_not include(@habit_1.id)
+      expect(Habit.pluck(:name)).to_not include("swimming")
+      expect(Habit.pluck(:description)).to_not include("swimming is fun")
+    end
+  end
+
+  describe "habits#delete" do 
+    it "will return an error if user can't be found" do
+      
+      habit = Habit.find(@habit_1.id)
+
+      expect(Habit.count).to eq(3)
+      expect(habit.id).to eq(@habit_1.id)
+      expect(habit.frequency).to eq("daily")
+      expect(habit.name).to eq("swimming")
+      expect(habit.description).to eq("swimming is fun")
+      expect(habit.frequency).to eq("daily")
+      expect(habit.status).to eq("in_progress")
+    
+      delete "/api/v0/users/#{@user.id}/habits/342334231", headers: @headers
+
+      result = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response.status).to eq(404)
+      expect(result).to eq({:errors=>[{:detail=>"Couldn't find Habit with 'id'=342334231", :status_code=>404}]})
+
+      # count has not been decremented
+      expect(Habit.count).to eq(3)
+      # @habit_1 attributes and values still in the system
+      expect(Habit.pluck(:id)).to include(@habit_1.id)
+      expect(Habit.pluck(:name)).to include("swimming")
+      expect(Habit.pluck(:description)).to include("swimming is fun")
     end
   end
 end
