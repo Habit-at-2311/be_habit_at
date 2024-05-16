@@ -18,7 +18,7 @@ RSpec.describe Habit, type: :model do
   describe 'after_create_commit' do
     it 'creates progresses for each day between start_datetime and end_datetime' do
       user = User.create!({
-        name: "John Doe",
+        name: "John Dunbar",
         email: "john@gmail.com"
       })
       habit = Habit.create!({
