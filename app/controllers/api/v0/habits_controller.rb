@@ -11,6 +11,13 @@ class Api::V0::HabitsController < ApplicationController
     render json: HabitSerializer.new(habit), status: :created
   end
 
+  def update
+    habit = Habit.find(params[:id])
+    habit.update(habit_params)
+
+    render json: HabitSerializer.new(habit), status: :accepted
+  end
+
   private
 
   def habit_params
