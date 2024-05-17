@@ -9,8 +9,45 @@ RSpec.describe "Habits Api", type: :request do
       email: "john@gmail.com"
     })
 
+    @plant_1 = Plant.create!({
+      style: "Flower1001",
+      stem: "Stem.008",
+      seed: "Seed.007",
+      petal: "Petal.007",
+      leaf: "Leaf.009",
+      scale: 1
+    })
+
+    @plant_2 = Plant.create!({
+      style: "Flower2001",
+      stem: "Stem.009",
+      seed: "Seed.008",
+      petal: "Petal.008",
+      leaf: "Leaf.010",
+      scale: 0.4
+    })
+
+    @plant_3 = Plant.create!({
+      style: "Flower3001",
+      stem: "Stem.010",
+      seed: "Seed.009",
+      petal: "Petal.009",
+      leaf: "Leaf.011",
+      scale: 1
+    })
+
+    @plant_4 = Plant.create!({
+      style: "Flower4001",
+      stem: "Stem.011",
+      seed: "Seed.010",
+      petal: "Petal.010",
+      leaf: "Leaf.012",
+      scale: 1
+    })
+
     @habit_1 = Habit.create!({
       user_id: @user.id,
+      plant_id: @plant_1.id,
       name: "swimming",
       description: "swimming is fun",
       frequency: 0,
@@ -21,6 +58,7 @@ RSpec.describe "Habits Api", type: :request do
 
     @habit_2 = Habit.create!({
       user_id: @user.id,
+      plant_id: @plant_2.id,
       name: "Coding",
       description: "Spend 1 hour per day to practice coding",
       frequency: "daily",
@@ -31,6 +69,7 @@ RSpec.describe "Habits Api", type: :request do
 
     @habit_3 = Habit.create!({
       user_id: @user.id,
+      plant_id: @plant_3.id,
       name: "Mediate",
       description: "Spend 10 minutes meditating right after waking up",
       frequency: "daily",
@@ -41,6 +80,7 @@ RSpec.describe "Habits Api", type: :request do
 
     @habit_params = {
       user_id: @user.id,
+      plant_id: @plant_1.id,
       name: "Travel to a new place",
 	    description: "travel at least once per month",
 	    frequency: "monthly",
@@ -48,6 +88,7 @@ RSpec.describe "Habits Api", type: :request do
       end_datetime: "2024-12-14 8:35:20"
     }
   end
+
   describe "habits#index" do
     it "show all user's habits" do
       get "/api/v0/users/#{@user.id}/habits"
@@ -86,6 +127,8 @@ RSpec.describe "Habits Api", type: :request do
 
       expect(attributes).to have_key(:user_id)
       expect(attributes[:user_id]).to eq(@user.id)
+      expect(attributes).to have_key(:plant_id)
+      expect(attributes[:plant_id]).to eq(@plant_1.id)
       expect(attributes).to have_key(:name)
       expect(attributes[:name]).to eq("Travel to a new place")
       expect(attributes).to have_key(:description)
@@ -129,6 +172,8 @@ RSpec.describe "Habits Api", type: :request do
 
       expect(attributes).to have_key(:user_id)
       expect(attributes[:user_id]).to eq(@user.id)
+      expect(attributes).to have_key(:plant_id)
+      expect(attributes[:plant_id]).to eq(@plant_3.id)
       expect(attributes).to have_key(:name)
       expect(attributes[:name]).to eq("Meditate")
       expect(attributes).to have_key(:description)
