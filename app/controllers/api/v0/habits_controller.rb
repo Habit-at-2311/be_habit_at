@@ -12,16 +12,16 @@ class Api::V0::HabitsController < ApplicationController
   end
 
   def update
-    habit = Habit.find(params[:id])
+    habit = @user.habits.find(params[:id])
     habit.update(habit_params)
 
     render json: HabitSerializer.new(habit), status: :accepted
   end
 
   def destroy
-    habit = Habit.find(params[:id])
-
+    habit = @user.habits.find(params[:id])
     habit.destroy
+    
     render json: { message: "#{habit.name} has been deleted" }, status: :accepted
   end
 
