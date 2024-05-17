@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v0 do
+      resources :plants, only: [:index]
       resources :users, only: [:show, :create, :update, :destroy] do
         resources :habits do
           resources :progresses, only: [:show, :index, :update]
