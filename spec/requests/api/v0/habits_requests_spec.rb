@@ -13,7 +13,16 @@ RSpec.describe "Habits Api", type: :request do
       user_id: @user.id,
       name: "swimming",
       description: "swimming is fun",
-      frequency: 0,
+      frequency: 1,
+      custom_frequency: {
+          'Monday': true,
+          'Tuesday': false,
+          'Wednesday': true,
+          'Thursday': false,
+          'Friday': true,
+          'Saturday': false,
+          'Sunday': true
+        },
       start_datetime: DateTime.new(2024,5,1),
       end_datetime: DateTime.new(2024,5,10),
       status: 0
@@ -24,6 +33,15 @@ RSpec.describe "Habits Api", type: :request do
       name: "Coding",
       description: "Spend 1 hour per day to practice coding",
       frequency: "daily",
+      custom_frequency: {
+          'Monday': true,
+          'Tuesday': true,
+          'Wednesday': true,
+          'Thursday': true,
+          'Friday': true,
+          'Saturday': true,
+          'Sunday': true
+        },
       start_datetime: "2024-05-1 20:00:00",
       end_datetime: "2024-05-13 20:00:00",
       status: "completed"
@@ -33,7 +51,16 @@ RSpec.describe "Habits Api", type: :request do
       user_id: @user.id,
       name: "Mediate",
       description: "Spend 10 minutes meditating right after waking up",
-      frequency: "daily",
+      frequency: "weekly",
+      custom_frequency: {
+          'Monday': true,
+          'Tuesday': false,
+          'Wednesday': true,
+          'Thursday': false,
+          'Friday': true,
+          'Saturday': false,
+          'Sunday': true
+        },
       start_datetime: "2024-05-1 6:30:00",
       end_datetime: "2024-05-30 6:30:00",
       status: "in_progress"
@@ -44,6 +71,15 @@ RSpec.describe "Habits Api", type: :request do
       name: "Travel to a new place",
 	    description: "travel at least once per month",
 	    frequency: "monthly",
+      custom_frequency: {
+          'Monday': true,
+          'Tuesday': false,
+          'Wednesday': false,
+          'Thursday': false,
+          'Friday': false,
+          'Saturday': false,
+          'Sunday': false
+        },
 	    start_datetime: "2024-05-14 8:35:20",
       end_datetime: "2024-12-14 8:35:20",
 	    status: "in_progress"
