@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Users", type: :request do 
   it "can get user data" do 
-    users = create_list(:user, 11)
+    create_list(:user, 11)
 		user = create(:user)
 
     get "/api/v0/users/#{user.id}", headers: { "Content-Type" => "application/json", "Accept" => "application/json" },
