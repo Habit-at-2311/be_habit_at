@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_15_205258) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_16_191634) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_15_205258) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "description"
+    t.jsonb "custom_frequency", default: {"Friday"=>false, "Monday"=>false, "Sunday"=>false, "Tuesday"=>false, "Saturday"=>false, "Thursday"=>false, "Wednesday"=>false}
     t.index ["user_id"], name: "index_habits_on_user_id"
   end
 
