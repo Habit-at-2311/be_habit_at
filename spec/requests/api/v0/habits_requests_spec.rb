@@ -147,12 +147,12 @@ RSpec.describe "Habits Api", type: :request do
   describe "habits#update" do 
   # Correct misspelled habit name with PATCH
     it "updates a habit for a given user" do 
-      habit = Habit.find(@habit_3.id)
+      habit = @user.habits.find(@habit_3.id)
       expect(habit.name).to eq("Mediate")
 
       patch "/api/v0/users/#{@user.id}/habits/#{@habit_3.id}", headers: @headers, params: { name: "Meditate" }.to_json
 
-      habit_updated = Habit.find(@habit_3.id)
+      habit_updated = @user.habits.find(@habit_3.id)
       expect(habit_updated.name).to eq("Meditate")
 
       expect(response).to be_successful
@@ -189,7 +189,7 @@ RSpec.describe "Habits Api", type: :request do
     end
 
     it "will return an error if it can't find a user" do 
-      habit = Habit.find(@habit_3.id)
+      habit = @user.habits.find(@habit_3.id)
       expect(habit.name).to eq("Mediate")
 
       patch "/api/v0/users/#{@user.id}/habits/48340957309478", headers: @headers, params: { name: "Meditate" }.to_json
@@ -200,7 +200,7 @@ RSpec.describe "Habits Api", type: :request do
       result = JSON.parse(response.body, symbolize_names: true)
       expect(result).to eq({:errors=>[{:detail=>"Couldn't find Habit with 'id'=48340957309478", :status_code=>404}]})
       
-      habit = Habit.find(@habit_3.id)
+      habit = @user.habits.find(@habit_3.id)
       # habit name did not get updated
       expect(habit.name).to eq("Mediate")
 
@@ -211,9 +211,9 @@ RSpec.describe "Habits Api", type: :request do
   describe "habits#delete" do 
     it "deletes a habit for a given user" do
       # assigning first habit in list
-      habit = Habit.find(@habit_1.id)
-
-      expect(Habit.count).to eq(3)
+      habit = @user.habits.find(@habit_1.id)
+      # user has three habits at start of request
+      expect(@user.habits.count).to eq(3)
       expect(habit.id).to eq(@habit_1.id)
       expect(habit.frequency).to eq("daily")
       expect(habit.name).to eq("swimming")
@@ -229,21 +229,22 @@ RSpec.describe "Habits Api", type: :request do
       expect(response.status).to eq(202)
       expect(result).to eq({:message=>"swimming has been deleted"})
 
-      # count has decremented by one
-      expect(Habit.count).to eq(2)
+      # @user now only has two total habits in his account
+      expect(@user.habits.count).to eq(2)
+
       # @habit_1 attributes and values are not in database anymore
-      expect(Habit.pluck(:id)).to_not include(@habit_1.id)
-      expect(Habit.pluck(:name)).to_not include("swimming")
-      expect(Habit.pluck(:description)).to_not include("swimming is fun")
+      expect(@user.habits.pluck(:id)).to_not include(@habit_1.id)
+      expect(@user.habits.pluck(:name)).to_not include("swimming")
+      expect(@user.habits.pluck(:description)).to_not include("swimming is fun")
+      # @habit_1 has been succeessfully destroyed
     end
   end
 
   describe "habits#delete" do 
     it "will return an error if user can't be found" do
-      
-      habit = Habit.find(@habit_1.id)
-
-      expect(Habit.count).to eq(3)
+      habit = @user.habits.find(@habit_1.id)
+      # user has three total habits they are tracking
+      expect(@user.habits.count).to eq(3)
       expect(habit.id).to eq(@habit_1.id)
       expect(habit.frequency).to eq("daily")
       expect(habit.name).to eq("swimming")
@@ -259,11 +260,12 @@ RSpec.describe "Habits Api", type: :request do
       expect(result).to eq({:errors=>[{:detail=>"Couldn't find Habit with 'id'=342334231", :status_code=>404}]})
 
       # count has not been decremented
-      expect(Habit.count).to eq(3)
+      expect(@user.habits.count).to eq(3)
+
       # @habit_1 attributes and values still in the system
-      expect(Habit.pluck(:id)).to include(@habit_1.id)
-      expect(Habit.pluck(:name)).to include("swimming")
-      expect(Habit.pluck(:description)).to include("swimming is fun")
+      expect(@user.habits.pluck(:id)).to include(@habit_1.id)
+      expect(@user.habits.pluck(:name)).to include("swimming")
+      expect(@user.habits.pluck(:description)).to include("swimming is fun")
     end
   end
 end
