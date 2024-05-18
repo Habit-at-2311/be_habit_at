@@ -11,10 +11,24 @@ class Api::V0::HabitsController < ApplicationController
     render json: HabitSerializer.new(habit), status: :created
   end
 
+  def update
+    habit = @user.habits.find(params[:id])
+    habit.update(habit_params)
+
+    render json: HabitSerializer.new(habit), status: :accepted
+  end
+
+  def destroy
+    habit = @user.habits.find(params[:id])
+    habit.destroy
+    
+    render json: { message: "#{habit.name} has been deleted" }, status: :accepted
+  end
+
   private
 
   def habit_params
-    params.require(:habit).permit(:user_id, :name, :description, :frequency, :start_datetime, :end_datetime)
+    params.require(:habit).permit(:user_id, :plant_id, :name, :description, :frequency, :start_datetime, :end_datetime)
   end
 
   def set_user
