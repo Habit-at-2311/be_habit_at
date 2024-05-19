@@ -7,7 +7,10 @@ class Api::V0::HabitsController < ApplicationController
   end
 
   def create
-    habit = @user.habits.create!(habit_params)
+    habit = @user.habits.new(habit_params)
+    if habit.save
+      UpdateHabitStatusJob.set(wait_until: habit.end_datetime.tomorrow.beginning_of_day).perform_later(habit.id)
+    end
     render json: HabitSerializer.new(habit), status: :created
   end
 
