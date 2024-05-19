@@ -17,7 +17,12 @@ module BeHabitAt
     config.autoload_lib(ignore: %w(assets tasks))
 
     # Configuration for the application, engines, and railties goes here.
-    #
+    config.active_job.queue_adapter = :good_job
+    config.good_job.enable_cron = true
+    config.good_job.cron = {
+                            schedule_reminder: { cron: '0 1 * * *', class: 'ScheduleReminderJob'  },
+                            update_progress_status: {  cron: '0 0 * * *', class: 'UpdateProgressStatus' }
+                           }
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
