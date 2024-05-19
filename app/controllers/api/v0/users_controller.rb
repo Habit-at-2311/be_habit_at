@@ -1,7 +1,7 @@
 class Api::V0::UsersController < ApplicationController
 	def show
 		user = User.find(params[:id])
-		
+
 		if user
 			render json: UserSerializer.new(user)
 		end
@@ -24,7 +24,7 @@ class Api::V0::UsersController < ApplicationController
 	end
 
 	def update
-		user = User.find(user_params[:id])
+		user = User.find(params[:id])
 		user.update(user_params)
 
 		render json: UserSerializer.new(user), status: :ok
@@ -33,6 +33,6 @@ class Api::V0::UsersController < ApplicationController
 	private
 
 	def user_params
-		params.require(:user).permit(:id, :name, :email)
+		params.require(:user).permit(:name, :email)
 	end
 end
