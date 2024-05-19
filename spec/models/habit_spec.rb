@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Habit, type: :model do
   describe 'validations' do
+    it { should validate_presence_of(:plant_id) }
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:frequency) }
@@ -25,7 +26,6 @@ RSpec.describe Habit, type: :model do
       })
 
       plant = Plant.create!({
-        id: 1,
         style: "Flower1001",
         stem: "Stem.008",
         seed: "Seed.007",
@@ -63,10 +63,19 @@ RSpec.describe Habit, type: :model do
         name: "John Doe",
         email: "john@gmail.com"
       })
+      plant = Plant.create!({
+        style: "Flower1001",
+        stem: "Stem.008",
+        seed: "Seed.007",
+        petal: "Petal.007",
+        leaf: "Leaf.009",
+        scale: 1
+      })
       habit = Habit.create!({
         name: "Mediate",
         description: "Spend 10 minutes meditating right after waking up",
         user_id: user.id,
+        plant_id: plant.id,
         frequency: 1,
         custom_frequency: {
           'Monday': true,
@@ -89,10 +98,19 @@ RSpec.describe Habit, type: :model do
         name: "John Doe",
         email: "john@gmail.com"
       })
+      plant = Plant.create!({
+        style: "Flower1001",
+        stem: "Stem.008",
+        seed: "Seed.007",
+        petal: "Petal.007",
+        leaf: "Leaf.009",
+        scale: 1
+      })
       habit = Habit.create!({
         name: "Mediate",
         description: "Spend 10 minutes meditating right after waking up",
         user_id: user.id,
+        plant_id: plant.id,
         frequency: 2,
         custom_frequency: {
           'Monday': true,
