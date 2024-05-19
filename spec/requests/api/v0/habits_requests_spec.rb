@@ -106,7 +106,6 @@ RSpec.describe "Habits Api", type: :request do
     })
 
     @habit_params = {
-      user_id: @user.id,
       plant_id: @plant_1.id,
       name: "Travel to a new place",
 	    description: "travel at least once per month",
