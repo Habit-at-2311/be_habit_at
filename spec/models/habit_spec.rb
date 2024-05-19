@@ -78,13 +78,13 @@ RSpec.describe Habit, type: :model do
         plant_id: plant.id,
         frequency: 1,
         custom_frequency: {
-          'Monday': true,
-          'Tuesday': false,
-          'Wednesday': true,
-          'Thursday': false,
-          'Friday': true,
-          'Saturday': false,
-          'Sunday': false
+          'monday': true,
+          'tuesday': false,
+          'wednesday': true,
+          'thursday': false,
+          'friday': true,
+          'saturday': false,
+          'sunday': false
         },
         start_datetime: DateTime.new(2024,5,1),
         end_datetime: DateTime.new(2024,5,20),
@@ -113,13 +113,13 @@ RSpec.describe Habit, type: :model do
         plant_id: plant.id,
         frequency: 2,
         custom_frequency: {
-          'Monday': true,
-          'Tuesday': false,
-          'Wednesday': false,
-          'Thursday': false,
-          'Friday': false,
-          'Saturday': false,
-          'Sunday': false
+          'monday': true,
+          'tuesday': false,
+          'wednesday': false,
+          'thursday': false,
+          'friday': false,
+          'saturday': false,
+          'sunday': false
         },
         start_datetime: DateTime.new(2024,5,1),
         end_datetime: DateTime.new(2024,12,1),

@@ -49,8 +49,9 @@ class Habit < ApplicationRecord
   def create_monthly_progress
     (start_datetime.to_date..end_datetime.to_date).each do |datetime|
       if first_week?(datetime)
-        day = datetime.strftime("%A")
-        if custom_frequency["#{day}"]
+        day = datetime.strftime("%A").downcase
+
+        if custom_frequency.with_indifferent_access["#{day}"]
           progresses.find_or_create_by(datetime: datetime)
         end
       end
