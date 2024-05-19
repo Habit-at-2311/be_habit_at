@@ -32,6 +32,15 @@ class Api::V0::UsersController < ApplicationController
 		end
 	end
 
+	def destroy
+		user = User.find(params[:id])
+		if user.destroy
+      render json: { message: "#{user.name} has been deleted" }, status: :accepted
+		else
+      render json: user.errors.as_json(full_messages: true), status: 422
+		end
+	end
+
 	private
 
 	def user_params
