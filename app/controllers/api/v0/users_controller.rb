@@ -2,9 +2,7 @@ class Api::V0::UsersController < ApplicationController
 	def show
 		user = User.find(params[:id])
 
-		if user
-			render json: UserSerializer.new(user)
-		end
+		render json: UserSerializer.new(user)
 	end
 
 	def create
@@ -12,22 +10,26 @@ class Api::V0::UsersController < ApplicationController
 		if user.save
 			render json: UserSerializer.new(user), status: :ok
 		else
-			raise ActiveRecord::RecordInvalid
+      render json: user.errors.as_json(full_messages: true), status: 400
 		end
 	end
 
 	def destroy
 		user = User.find(params[:id])
-		user.destroy
-
-		render json: { message: "User #{user.email}, was successfully deleted" }, status: :ok
+		if user.destroy
+			render json: { message: "User #{user.email}, was successfully deleted" }, status: :ok
+		else
+      render json: user.errors.as_json(full_messages: true), status: 422
+		end
 	end
 
 	def update
 		user = User.find(params[:id])
-		user.update(user_params)
-
-		render json: UserSerializer.new(user), status: :ok
+		if user.update(user_params)
+			render json: UserSerializer.new(user), status: :ok
+		else
+			render json: user.errors.as_json(full_messages: true), status: 422
+		end
 	end
 
 	private
