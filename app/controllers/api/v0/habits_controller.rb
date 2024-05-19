@@ -16,12 +16,12 @@ class Api::V0::HabitsController < ApplicationController
     end
   end
 
-  def update
-    habit = @user.habits.find(params[:id])
-    habit.update(habit_params)
+  # def update
+  #   habit = @user.habits.find(params[:id])
+  #   habit.update(habit_params)
 
-    render json: HabitSerializer.new(habit), status: :accepted
-  end
+  #   render json: HabitSerializer.new(habit), status: :accepted
+  # end
 
   def destroy
     habit = @user.habits.find(params[:id])
@@ -33,7 +33,7 @@ class Api::V0::HabitsController < ApplicationController
   private
 
   def habit_params
-    params.require(:habit).permit(:plant_id, :name, :description, :frequency, :start_datetime, :end_datetime)
+    params.require(:habit).permit(:plant_id, :name, :description, :frequency, :custom_frequency, :start_datetime, :end_datetime)
   end
 
   def set_user
