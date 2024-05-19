@@ -57,7 +57,7 @@ class Habit < ApplicationRecord
     end
   end
 
-  def first_week?(date)``
+  def first_week?(date)
     date.day <= 7
   end
 end
