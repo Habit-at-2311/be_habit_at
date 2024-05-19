@@ -180,9 +180,9 @@ RSpec.describe "Habits Api", type: :request do
     end
   end
 
-  describe "habits#update" do 
+  describe "habits#update" do
   # Correct misspelled habit name with PATCH
-    it "updates a habit for a given user" do 
+    it "updates a habit for a given user" do
       habit = @user.habits.find(@habit_3.id)
       expect(habit.name).to eq("Mediate")
 
@@ -197,7 +197,7 @@ RSpec.describe "Habits Api", type: :request do
       result = JSON.parse(response.body, symbolize_names: true)
 
       data = result[:data]
-      
+
       expect(data).to have_key(:id)
       expect(data[:id]).to be_a(String)
       expect(data).to have_key(:type)
@@ -215,7 +215,7 @@ RSpec.describe "Habits Api", type: :request do
       expect(attributes).to have_key(:description)
       expect(attributes[:description]).to eq("Spend 10 minutes meditating right after waking up")
       expect(attributes).to have_key(:frequency)
-      expect(attributes[:frequency]).to eq("daily")
+      expect(attributes[:frequency]).to eq("weekly")
       expect(attributes).to have_key(:start_datetime)
       expect(attributes[:start_datetime]).to eq("2024-05-01T06:30:00.000Z")
       expect(attributes).to have_key(:end_datetime)
@@ -224,18 +224,18 @@ RSpec.describe "Habits Api", type: :request do
       expect(attributes[:status]).to eq("in_progress")
     end
 
-    it "will return an error if it can't find a user" do 
+    it "will return an error if it can't find a user" do
       habit = @user.habits.find(@habit_3.id)
       expect(habit.name).to eq("Mediate")
 
       patch "/api/v0/users/#{@user.id}/habits/48340957309478", headers: @headers, params: { name: "Meditate" }.to_json
-      
+
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
 
       result = JSON.parse(response.body, symbolize_names: true)
       expect(result).to eq({:errors=>[{:detail=>"Couldn't find Habit with 'id'=48340957309478", :status_code=>404}]})
-      
+
       habit = @user.habits.find(@habit_3.id)
       # habit name did not get updated
       expect(habit.name).to eq("Mediate")
@@ -244,20 +244,20 @@ RSpec.describe "Habits Api", type: :request do
     end
   end
 
-  describe "habits#delete" do 
+  describe "habits#delete" do
     it "deletes a habit for a given user" do
       # assigning first habit in list
       habit = @user.habits.find(@habit_1.id)
       # user has three habits at start of request
       expect(@user.habits.count).to eq(3)
       expect(habit.id).to eq(@habit_1.id)
-      expect(habit.frequency).to eq("daily")
+      expect(habit.frequency).to eq("weekly")
       expect(habit.name).to eq("swimming")
       expect(habit.description).to eq("swimming is fun")
-      expect(habit.frequency).to eq("daily")
+      expect(habit.frequency).to eq("weekly")
       expect(habit.status).to eq("in_progress")
 
-      delete "/api/v0/users/#{@user.id}/habits/#{habit.id}", headers: @headers, 
+      delete "/api/v0/users/#{@user.id}/habits/#{habit.id}", headers: @headers,
         params: { name: "Meditate" }.to_json
 
       result = JSON.parse(response.body, symbolize_names: true)
@@ -276,18 +276,18 @@ RSpec.describe "Habits Api", type: :request do
     end
   end
 
-  describe "habits#delete" do 
+  describe "habits#delete" do
     it "will return an error if user can't be found" do
       habit = @user.habits.find(@habit_1.id)
       # user has three total habits they are tracking
       expect(@user.habits.count).to eq(3)
       expect(habit.id).to eq(@habit_1.id)
-      expect(habit.frequency).to eq("daily")
+      expect(habit.frequency).to eq("weekly")
       expect(habit.name).to eq("swimming")
       expect(habit.description).to eq("swimming is fun")
-      expect(habit.frequency).to eq("daily")
+      expect(habit.frequency).to eq("weekly")
       expect(habit.status).to eq("in_progress")
-    
+
       delete "/api/v0/users/#{@user.id}/habits/342334231", headers: @headers
 
       result = JSON.parse(response.body, symbolize_names: true)
