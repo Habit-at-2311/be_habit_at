@@ -6,13 +6,14 @@ class Habit < ApplicationRecord
   validates :start_datetime, presence: true
   validates :end_datetime, presence: true
   validates :status, presence: true
+  validates :plant_id, presence: true
 
   enum status: [:in_progress, :completed]
   enum frequency: [:daily, :weekly, :monthly]
 
   belongs_to :user
   belongs_to :plant
-  
+
   has_many :progresses, dependent: :destroy
 
   after_create_commit :create_progresses
