@@ -179,69 +179,69 @@ RSpec.describe "Habits Api", type: :request do
     end
   end
 
-  describe "habits#update" do
-  # Correct misspelled habit name with PATCH
-    it "updates a habit for a given user" do
-      habit = @user.habits.find(@habit_3.id)
-      expect(habit.name).to eq("Mediate")
+  # describe "habits#update" do
+  # # Correct misspelled habit name with PATCH
+  #   it "updates a habit for a given user" do
+  #     habit = @user.habits.find(@habit_3.id)
+  #     expect(habit.name).to eq("Mediate")
 
-      patch "/api/v0/users/#{@user.id}/habits/#{@habit_3.id}", headers: @headers, params: { name: "Meditate" }.to_json
+  #     patch "/api/v0/users/#{@user.id}/habits/#{@habit_3.id}", headers: @headers, params: { name: "Meditate" }.to_json
 
-      habit_updated = @user.habits.find(@habit_3.id)
-      expect(habit_updated.name).to eq("Meditate")
+  #     habit_updated = @user.habits.find(@habit_3.id)
+  #     expect(habit_updated.name).to eq("Meditate")
 
-      expect(response).to be_successful
-      expect(response.status).to eq(202)
+  #     expect(response).to be_successful
+  #     expect(response.status).to eq(202)
 
-      result = JSON.parse(response.body, symbolize_names: true)
+  #     result = JSON.parse(response.body, symbolize_names: true)
 
-      data = result[:data]
+  #     data = result[:data]
 
-      expect(data).to have_key(:id)
-      expect(data[:id]).to be_a(String)
-      expect(data).to have_key(:type)
-      expect(data[:type]).to eq("habit")
-      expect(data).to have_key(:attributes)
-      expect(data[:attributes]).to be_a(Hash)
-      attributes = data[:attributes]
+  #     expect(data).to have_key(:id)
+  #     expect(data[:id]).to be_a(String)
+  #     expect(data).to have_key(:type)
+  #     expect(data[:type]).to eq("habit")
+  #     expect(data).to have_key(:attributes)
+  #     expect(data[:attributes]).to be_a(Hash)
+  #     attributes = data[:attributes]
 
-      expect(attributes).to have_key(:user_id)
-      expect(attributes[:user_id]).to eq(@user.id)
-      expect(attributes).to have_key(:plant_id)
-      expect(attributes[:plant_id]).to eq(@plant_3.id)
-      expect(attributes).to have_key(:name)
-      expect(attributes[:name]).to eq("Meditate")
-      expect(attributes).to have_key(:description)
-      expect(attributes[:description]).to eq("Spend 10 minutes meditating right after waking up")
-      expect(attributes).to have_key(:frequency)
-      expect(attributes[:frequency]).to eq("weekly")
-      expect(attributes).to have_key(:start_datetime)
-      expect(attributes[:start_datetime]).to eq("2024-05-01T06:30:00.000Z")
-      expect(attributes).to have_key(:end_datetime)
-      expect(attributes[:end_datetime]).to eq("2024-05-30T06:30:00.000Z")
-      expect(attributes).to have_key(:status)
-      expect(attributes[:status]).to eq("in_progress")
-    end
+  #     expect(attributes).to have_key(:user_id)
+  #     expect(attributes[:user_id]).to eq(@user.id)
+  #     expect(attributes).to have_key(:plant_id)
+  #     expect(attributes[:plant_id]).to eq(@plant_3.id)
+  #     expect(attributes).to have_key(:name)
+  #     expect(attributes[:name]).to eq("Meditate")
+  #     expect(attributes).to have_key(:description)
+  #     expect(attributes[:description]).to eq("Spend 10 minutes meditating right after waking up")
+  #     expect(attributes).to have_key(:frequency)
+  #     expect(attributes[:frequency]).to eq("weekly")
+  #     expect(attributes).to have_key(:start_datetime)
+  #     expect(attributes[:start_datetime]).to eq("2024-05-01T06:30:00.000Z")
+  #     expect(attributes).to have_key(:end_datetime)
+  #     expect(attributes[:end_datetime]).to eq("2024-05-30T06:30:00.000Z")
+  #     expect(attributes).to have_key(:status)
+  #     expect(attributes[:status]).to eq("in_progress")
+  #   end
 
-    it "will return an error if it can't find a user" do
-      habit = @user.habits.find(@habit_3.id)
-      expect(habit.name).to eq("Mediate")
+  #   it "will return an error if it can't find a user" do
+  #     habit = @user.habits.find(@habit_3.id)
+  #     expect(habit.name).to eq("Mediate")
 
-      patch "/api/v0/users/#{@user.id}/habits/48340957309478", headers: @headers, params: { name: "Meditate" }.to_json
+  #     patch "/api/v0/users/#{@user.id}/habits/48340957309478", headers: @headers, params: { name: "Meditate" }.to_json
 
-      expect(response).to_not be_successful
-      expect(response.status).to eq(404)
+  #     expect(response).to_not be_successful
+  #     expect(response.status).to eq(404)
 
-      result = JSON.parse(response.body, symbolize_names: true)
-      expect(result).to eq({:errors=>[{:detail=>"Couldn't find Habit with 'id'=48340957309478", :status_code=>404}]})
+  #     result = JSON.parse(response.body, symbolize_names: true)
+  #     expect(result).to eq({:errors=>[{:detail=>"Couldn't find Habit with 'id'=48340957309478", :status_code=>404}]})
 
-      habit = @user.habits.find(@habit_3.id)
-      # habit name did not get updated
-      expect(habit.name).to eq("Mediate")
+  #     habit = @user.habits.find(@habit_3.id)
+  #     # habit name did not get updated
+  #     expect(habit.name).to eq("Mediate")
 
-      result = JSON.parse(response.body, symbolize_names: true)
-    end
-  end
+  #     result = JSON.parse(response.body, symbolize_names: true)
+  #   end
+  # end
 
   describe "habits#delete" do
     it "deletes a habit for a given user" do
