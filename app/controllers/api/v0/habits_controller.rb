@@ -12,7 +12,7 @@ class Api::V0::HabitsController < ApplicationController
       UpdateHabitStatusJob.set(wait_until: habit.end_datetime.tomorrow.beginning_of_day).perform_later(habit.id)
       render json: HabitSerializer.new(habit), status: :created
     else
-      head 400
+      render json: habit.errors.as_json(full_messages: true), status: 400
     end
   end
 
@@ -25,15 +25,29 @@ class Api::V0::HabitsController < ApplicationController
 
   def destroy
     habit = @user.habits.find(params[:id])
-    habit.destroy
-
-    render json: { message: "#{habit.name} has been deleted" }, status: :accepted
+    if habit.destroy
+      render json: { message: "#{habit.name} has been deleted" }, status: :accepted
+    else
+      render json: habit.errors.as_json(full_messages: true), status: 422
+    end
   end
 
   private
 
   def habit_params
-    params.require(:habit).permit(:plant_id, :name, :description, :frequency, :custom_frequency, :start_datetime, :end_datetime)
+    params
+      .require(:habit)
+      .permit(
+        :plant_id,
+        :name,
+        :description,
+        :frequency,
+        :start_datetime,
+        :end_datetime,
+        custom_frequency: [
+          :monday, :tuesday, :wednesday,
+          :thursday, :friday, :saturday, :sunday
+        ])
   end
 
   def set_user
