@@ -11,6 +11,8 @@ class Habit < ApplicationRecord
   enum frequency: [:daily, :weekly, :monthly]
 
   belongs_to :user
+  belongs_to :plant
+  
   has_many :progresses, dependent: :destroy
 
   after_create_commit :create_progresses

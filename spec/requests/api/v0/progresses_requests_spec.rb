@@ -9,8 +9,18 @@ RSpec.describe "Progresses API", type: :request do
       email: "john@gmail.com"
     })
 
+    @plant_1 = Plant.create!({
+      style: "Flower1001",
+      stem: "Stem.008",
+      seed: "Seed.007",
+      petal: "Petal.007",
+      leaf: "Leaf.009",
+      scale: 1
+    })
+
     @habit = Habit.create!({
       user_id: @user.id,
+      plant_id: @plant_1.id,
       name: "Coding",
       description: "Spend 1 hour per day to practice coding",
       frequency: "daily",

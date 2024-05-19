@@ -44,6 +44,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem "simplecov"
   gem "rspec-rails"
+  gem "rspec_junit_formatter", require: false
   gem "webmock"
   gem "vcr"
   gem "pry"

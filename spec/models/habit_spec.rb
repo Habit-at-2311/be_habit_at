@@ -13,6 +13,7 @@ RSpec.describe Habit, type: :model do
 
   describe 'associations' do
     it { should belong_to(:user) }
+    it { should belong_to(:plant) }
     it { should have_many(:progresses).dependent(:destroy) }
   end
 
@@ -22,10 +23,22 @@ RSpec.describe Habit, type: :model do
         name: "John Doe",
         email: "john@gmail.com"
       })
+
+      plant = Plant.create!({
+        id: 1,
+        style: "Flower1001",
+        stem: "Stem.008",
+        seed: "Seed.007",
+        petal: "Petal.007",
+        leaf: "Leaf.009",
+        scale: 1
+      })
+
       habit = Habit.create!({
         name: "Mediate",
         description: "Spend 10 minutes meditating right after waking up",
         user_id: user.id,
+        plant_id: plant.id,
         frequency: 0,
         custom_frequency: {
           'Monday': true,
