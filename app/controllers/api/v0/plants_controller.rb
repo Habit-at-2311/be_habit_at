@@ -8,7 +8,7 @@ class Api::V0::PlantsController < ApplicationController
 	def create
 		plant = Plant.new(plant_params)
 		if plant.save
-			render json: PlantSerializer.new(user), status: :ok
+			render json: PlantSerializer.new(plant), status: :ok
 		else
 			raise ActiveRecord::RecordInvalid
 		end
