@@ -8,9 +8,13 @@ class Api::V0::ProgressesController < ApplicationController
   end
 
   def update
+
     progress = @habit.progresses.find(params[:id])
-    progress.update!(progress_params)
-    render json: ProgressSerializer.new(progress), status: :ok
+    if progress.update!(progress_params)
+      render json: ProgressSerializer.new(progress), status: :ok
+    else
+      render json: progress.errors.as_json(full_messages: true), status: 422
+    end
   end
 
   private

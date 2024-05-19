@@ -19,7 +19,7 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: postgres
-  password: ''
+  password:
 
 development:
   <<: *default
@@ -82,5 +82,5 @@ test:
 production:
   <<: *default
   database: be_habit_at_production
-  username: be_habit_at
+  username: postgres
   password: <%= ENV["BE_HABIT_AT_DATABASE_PASSWORD"] %>

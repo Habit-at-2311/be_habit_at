@@ -24,6 +24,15 @@ RSpec.describe "Progresses API", type: :request do
       name: "Coding",
       description: "Spend 1 hour per day to practice coding",
       frequency: "daily",
+      custom_frequency: {
+          'Monday': true,
+          'Tuesday': true,
+          'Wednesday': true,
+          'Thursday': true,
+          'Friday': true,
+          'Saturday': true,
+          'Sunday': true
+        },
       start_datetime: "2024-05-12 20:00:00",
       end_datetime: "2024-05-16 20:00:00",
       status: "in_progress"
@@ -45,7 +54,6 @@ RSpec.describe "Progresses API", type: :request do
 
       expect(json_response[:data]).to be_an(Array)
       expect(json_response[:data].count).to eq(5)
-
     end
   end
 
