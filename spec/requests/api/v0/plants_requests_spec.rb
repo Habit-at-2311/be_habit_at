@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe "Plants Api", type: :request do 
-	before(:each) do 
+RSpec.describe "Plants Api", type: :request do
+	before(:each) do
 		@headers = { "Content-Type" => "application/json", "accept" => 'application/json' }
 
 		@plant_1 = Plant.create!({
@@ -41,10 +41,10 @@ RSpec.describe "Plants Api", type: :request do
     })
 	end
 
-	describe "plants#index" do 
-		it "returns the data for every plant in the system" do 
+	describe "plants#index" do
+		it "returns the data for every plant in the system" do
 			get "/api/v0/plants", headers: @headers
-		
+
 			result = JSON.parse(response.body, symbolize_names: true)
 			data = result[:data]
 
@@ -53,7 +53,7 @@ RSpec.describe "Plants Api", type: :request do
 			expect(result.keys).to match_array([:data])
 			expect(data).to be_an Array
 			expect(data.count).to eq(4)
-			
+
 			# test first plant's non-'attributes' key/values
 			expect(data.first.keys).to match_array([:id, :type, :attributes])
 			expect(data.first[:id]).to be_a String
@@ -73,7 +73,7 @@ RSpec.describe "Plants Api", type: :request do
 			expect(data.first[:attributes][:petal]).to eq("Petal.007")
 			expect(data.first[:attributes][:leaf]).to be_a String
 			expect(data.first[:attributes][:leaf]).to eq("Leaf.009")
-			expect(data.first[:attributes][:scale]).to be_an Integer
+			expect(data.first[:attributes][:scale]).to be_an Float
 			expect(data.first[:attributes][:scale]).to eq(1)
 
 			# plants 1, 2, and 3 attr type/value tests
@@ -88,9 +88,9 @@ RSpec.describe "Plants Api", type: :request do
 				expect(data[n][:attributes][:petal]).to eq(Plant.all[n].petal)
 				expect(data[n][:attributes][:leaf]).to be_a String
 				expect(data[n][:attributes][:leaf]).to eq(Plant.all[n].leaf)
-				expect(data[n][:attributes][:scale]).to be_an Integer
+				expect(data[n][:attributes][:scale]).to be_an Float
 				expect(data[n][:attributes][:scale]).to eq(Plant.all[n].scale)
 			end
 		end
 	end
-end 
+end
