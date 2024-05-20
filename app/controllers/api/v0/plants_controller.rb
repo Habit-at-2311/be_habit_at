@@ -19,7 +19,7 @@ class Api::V0::PlantsController < ApplicationController
 		if plant.update(plant_params)
 			render json: PlantSerializer.new(plant), status: :ok
 		else
-			render json: plant.error.as_json(full_messages: true), status: 422
+			render json: plant.errors.as_json(full_messages: true), status: 422
 		end
 	end
 
