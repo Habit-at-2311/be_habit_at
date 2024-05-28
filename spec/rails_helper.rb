@@ -82,10 +82,8 @@ VCR.configure do |config|
   config.allow_http_connections_when_no_cassette = true
   config.default_cassette_options = { record: :new_episodes }
   config.default_cassette_options = { re_record_interval: 1.day }
+  config.filter_sensitive_data('<OPENAI_API_KEY>') { Rails.application.credentials.dig(:OPENAI_API_KEY) }
   # config.filter_sensitive_data('<REPLACE_ACTUAL_KEY_WITH_THIS>') {Rails.application.credentials.NAME_OF_EXTERNAL_API[:ACTUAL_ALPHA_NUMERIC_KEY_PROVIDED]}
   # config.default_cassette_options = { re_record_interval: 7.days }
   # config.default_cassette_options = { record: :once }
 end
-
-
-
