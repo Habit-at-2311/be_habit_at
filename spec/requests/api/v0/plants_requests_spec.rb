@@ -10,7 +10,8 @@ RSpec.describe "Plants Api", type: :request do
       seed: "Seed.007",
       petal: "Petal.007",
       leaf: "Leaf.009",
-      scale: 1
+      scale: 1,
+			grow_rate: 0.4
     })
 
     @plant_2 = Plant.create!({
@@ -19,7 +20,8 @@ RSpec.describe "Plants Api", type: :request do
       seed: "Seed.008",
       petal: "Petal.008",
       leaf: "Leaf.010",
-      scale: 0.4
+      scale: 1,
+			grow_rate: 0.4
     })
 
     @plant_3 = Plant.create!({
@@ -28,7 +30,8 @@ RSpec.describe "Plants Api", type: :request do
       seed: "Seed.009",
       petal: "Petal.009",
       leaf: "Leaf.011",
-      scale: 1
+      scale: 1,
+			grow_rate: 0.4
     })
 
     @plant_4 = Plant.create!({
@@ -37,7 +40,8 @@ RSpec.describe "Plants Api", type: :request do
       seed: "Seed.010",
       petal: "Petal.010",
       leaf: "Leaf.012",
-      scale: 1
+      scale: 1,
+			grow_rate: 0.4
     })
 	end
 
@@ -60,7 +64,7 @@ RSpec.describe "Plants Api", type: :request do
 			expect(data.first[:type]).to be_a String
 			expect(data.first[:type]).to eq("plant")
 			expect(data.first[:attributes]).to be_a Hash
-			expect(data.first[:attributes].keys).to match_array([:style, :stem, :seed, :petal, :leaf, :scale])
+			expect(data.first[:attributes].keys).to match_array([:style, :stem, :seed, :petal, :leaf, :scale, :grow_rate])
 
 			# explicit attributes comparison for first plant
 			expect(data.first[:attributes][:style]).to be_a String
@@ -75,6 +79,8 @@ RSpec.describe "Plants Api", type: :request do
 			expect(data.first[:attributes][:leaf]).to eq("Leaf.009")
 			expect(data.first[:attributes][:scale]).to be_an Float
 			expect(data.first[:attributes][:scale]).to eq(1)
+			expect(data.first[:attributes][:grow_rate]).to be_an Float
+			expect(data.first[:attributes][:grow_rate]).to eq(0.4)
 
 			# plants 1, 2, and 3 attr type/value tests
 			(1..3).to_a.each do |n|

@@ -6,7 +6,7 @@ RSpec.describe "Progresses API", type: :request do
 
     @user = User.create!({
       name: "John Doe",
-      email: "john@gmail.com"
+      email: "john@testing.com"
     })
 
     @plant_1 = Plant.create!({
@@ -15,7 +15,8 @@ RSpec.describe "Progresses API", type: :request do
       seed: "Seed.007",
       petal: "Petal.007",
       leaf: "Leaf.009",
-      scale: 1
+      scale: 1,
+      grow_rate: 0.4
     })
 
     @habit = Habit.create!({
