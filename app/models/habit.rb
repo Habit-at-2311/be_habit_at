@@ -13,10 +13,10 @@ class Habit < ApplicationRecord
 
   belongs_to :user
   belongs_to :plant
-
+  has_one :habit_plant, dependent: :destroy
   has_many :progresses, dependent: :destroy
 
-  after_create_commit :create_progresses
+  after_create_commit :create_progresses, :create_habit_plant
 
   private
 
@@ -60,5 +60,13 @@ class Habit < ApplicationRecord
 
   def first_week?(date)
     date.day <= 7
+  end
+
+  def create_habit_plant
+    HabitPlant.create!(
+                        plant_id: self.plant_id,
+                        habit_id: self.id,
+                        grow_rate: self.plant.grow_rate,
+                        scale: self.plant.scale)
   end
 end
