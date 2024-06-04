@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resources :users, only: [:show, :create, :update, :destroy] do
         resources :habits do
           resources :progresses, only: [:show, :index, :update]
+          resources :questions, only: [:create]
         end
       end
     end
