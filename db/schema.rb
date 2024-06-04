@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_26_062851) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_04_053915) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -94,6 +94,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_26_062851) do
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
   end
 
+  create_table "habit_plants", force: :cascade do |t|
+    t.bigint "habit_id", null: false
+    t.bigint "plant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "scale"
+    t.integer "status", default: 0, null: false
+    t.float "grow_rate"
+    t.index ["habit_id"], name: "index_habit_plants_on_habit_id"
+    t.index ["plant_id"], name: "index_habit_plants_on_plant_id"
+  end
+
   create_table "habits", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "frequency", default: 0
@@ -119,6 +131,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_26_062851) do
     t.float "scale"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "grow_rate"
   end
 
   create_table "progresses", force: :cascade do |t|
@@ -137,6 +150,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_26_062851) do
     t.string "name"
   end
 
+  add_foreign_key "habit_plants", "habits"
+  add_foreign_key "habit_plants", "plants"
   add_foreign_key "habits", "plants"
   add_foreign_key "habits", "users"
   add_foreign_key "progresses", "habits"
