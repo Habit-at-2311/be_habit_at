@@ -63,21 +63,24 @@ RSpec.describe GrowPlantService, type: :service do
       expect(habit_plant.status).to eq("wilting")
     end
 
-    it "can't increase the scale if the scale reaches the max scale" do
+    it "can't increase the scale more than the max scale" do
       service = GrowPlantService.new(habit_plant, true)
-      11.times do
+      12.times do
         service.update
       end
       expect(habit_plant.scale).to eq(4)
       expect(habit_plant.status).to eq("healthy")
     end
 
-    it "can't decrease the scale if the scale is less than the initial scale" do
+    it "can't decrease the scale if the scale is less than the (initial_scale - grow_rate)" do
       service = GrowPlantService.new(habit_plant, false)
-      service.update
-
+      3.times do
+        service.update
+      end
       expect(habit_plant.scale).to eq(0.6)
       expect(habit_plant.status).to eq("death")
     end
+
+
   end
 end
