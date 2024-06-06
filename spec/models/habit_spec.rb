@@ -130,5 +130,46 @@ RSpec.describe Habit, type: :model do
       })
       expect(habit.progresses.count).to eq(7)
     end
+
+    it "creates habit_plant after the habit is created" do
+      user = User.create!({
+        name: "John Doe",
+        email: "john@gmail.com"
+      })
+      plant = Plant.create!({
+        style: "Flower1001",
+        stem: "Stem.008",
+        seed: "Seed.007",
+        petal: "Petal.007",
+        leaf: "Leaf.009",
+        scale: 1,
+        grow_rate: 0.4
+      })
+      habit = Habit.create!({
+        name: "Mediate",
+        description: "Spend 10 minutes meditating right after waking up",
+        user_id: user.id,
+        plant_id: plant.id,
+        frequency: 2,
+        custom_frequency: {
+          'monday': true,
+          'tuesday': false,
+          'wednesday': false,
+          'thursday': false,
+          'friday': false,
+          'saturday': false,
+          'sunday': false
+        },
+        start_datetime: DateTime.new(2024,5,1),
+        end_datetime: DateTime.new(2024,12,1),
+        status: 0
+      })
+
+      expect(habit.habit_plant.plant_id).to eq(plant.id)
+      expect(habit.habit_plant.habit_id).to eq(habit.id)
+      expect(habit.habit_plant.grow_rate).to eq(plant.grow_rate)
+      expect(habit.habit_plant.scale).to eq(plant.scale)
+      expect(habit.habit_plant.status).to eq("growing")
+    end
   end
 end
