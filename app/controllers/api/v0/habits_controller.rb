@@ -18,9 +18,11 @@ class Api::V0::HabitsController < ApplicationController
 
   def update
     habit = @user.habits.find(params[:id])
-    habit.update(update_habit_params)
-
-    render json: HabitSerializer.new(habit), status: :accepted
+    if habit.update!(update_habit_params)
+      render json: HabitSerializer.new(habit), status: :accepted
+    else
+      render json: habit.errors.as_json(full_messages: true), status: 422
+    end
   end
 
   def destroy
