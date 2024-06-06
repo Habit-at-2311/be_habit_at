@@ -15,7 +15,8 @@ RSpec.describe "Habits Api", type: :request do
       seed: "Seed.007",
       petal: "Petal.007",
       leaf: "Leaf.009",
-      scale: 1
+      scale: 1,
+      grow_rate: 0.4
     })
 
     @plant_2 = Plant.create!({
@@ -24,7 +25,8 @@ RSpec.describe "Habits Api", type: :request do
       seed: "Seed.008",
       petal: "Petal.008",
       leaf: "Leaf.010",
-      scale: 0.4
+      scale: 1,
+      grow_rate: 0.4
     })
 
     @plant_3 = Plant.create!({
@@ -33,7 +35,8 @@ RSpec.describe "Habits Api", type: :request do
       seed: "Seed.009",
       petal: "Petal.009",
       leaf: "Leaf.011",
-      scale: 1
+      scale: 1,
+      grow_rate: 0.4
     })
 
     @plant_4 = Plant.create!({
@@ -42,7 +45,8 @@ RSpec.describe "Habits Api", type: :request do
       seed: "Seed.010",
       petal: "Petal.010",
       leaf: "Leaf.012",
-      scale: 1
+      scale: 1,
+      grow_rate: 0.4
     })
 
     @habit_1 = Habit.create!({

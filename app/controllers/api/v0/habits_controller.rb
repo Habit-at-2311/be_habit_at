@@ -7,7 +7,7 @@ class Api::V0::HabitsController < ApplicationController
   end
 
   def create
-    habit = @user.habits.new(habit_params)
+    habit = @user.habits.new(create_habit_params)
     if habit.save
       UpdateHabitStatusJob.set(wait_until: habit.end_datetime.tomorrow.beginning_of_day).perform_later(habit.id)
       render json: HabitSerializer.new(habit), status: :created
@@ -18,7 +18,7 @@ class Api::V0::HabitsController < ApplicationController
 
   def update
     habit = @user.habits.find(params[:id])
-    if habit.update!(habit_params)
+    if habit.update!(update_habit_params)
       render json: HabitSerializer.new(habit), status: :accepted
     else
       render json: habit.errors.as_json(full_messages: true), status: 422
@@ -36,7 +36,7 @@ class Api::V0::HabitsController < ApplicationController
 
   private
 
-  def habit_params
+  def create_habit_params
     params
       .require(:habit)
       .permit(
@@ -50,6 +50,10 @@ class Api::V0::HabitsController < ApplicationController
           :monday, :tuesday, :wednesday,
           :thursday, :friday, :saturday, :sunday
         ])
+  end
+
+  def update_habit_params
+    params.require(:habit).permit(:name, :description)
   end
 
   def set_user

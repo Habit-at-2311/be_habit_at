@@ -31,7 +31,8 @@ RSpec.describe Habit, type: :model do
         seed: "Seed.007",
         petal: "Petal.007",
         leaf: "Leaf.009",
-        scale: 1
+        scale: 1,
+        grow_rate: 0.4
       })
 
       habit = Habit.create!({
@@ -69,7 +70,8 @@ RSpec.describe Habit, type: :model do
         seed: "Seed.007",
         petal: "Petal.007",
         leaf: "Leaf.009",
-        scale: 1
+        scale: 1,
+        grow_rate: 0.4
       })
       habit = Habit.create!({
         name: "Mediate",
@@ -104,7 +106,8 @@ RSpec.describe Habit, type: :model do
         seed: "Seed.007",
         petal: "Petal.007",
         leaf: "Leaf.009",
-        scale: 1
+        scale: 1,
+        grow_rate: 0.4
       })
       habit = Habit.create!({
         name: "Mediate",

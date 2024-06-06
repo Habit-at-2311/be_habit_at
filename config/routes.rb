@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         resources :habits do
           resources :progresses, only: [:show, :index, :update]
           resources :questions, only: [:create]
+          resource :habit_plant, only: [:show]
         end
       end
     end
